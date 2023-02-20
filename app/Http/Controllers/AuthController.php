@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -17,5 +18,14 @@ class AuthController extends Controller
         $token = $authService->register($email, $pass, $name);
 
         return new JsonResponse(['token' => $token]);        
+    }
+
+    public function login(LoginRequest $loginRequest, AuthService $authService)
+    {
+        $email = $loginRequest->getEmail();        
+        $pass = $loginRequest->getPass();
+        $token = $authService->login($email, $pass);
+
+        return new JsonResponse(['token' => $token]);
     }
 }
