@@ -44,5 +44,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (WrongPassException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Неправильный логин или пароль'
+                ], 401);
+            }
+        });
     }
 }
