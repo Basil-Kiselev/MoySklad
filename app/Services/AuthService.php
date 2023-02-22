@@ -4,13 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\WrongPassException;
 use App\Models\User;
-use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Mockery\Exception\InvalidOrderException;
-use PhpParser\Node\Stmt\TryCatch;
-
 
 class AuthService
 {
