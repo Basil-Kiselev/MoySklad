@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CounterpartyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,11 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('counterparties/{id}', [CounterpartyController::class, 'getCounterparty']);
     Route::put('counterparties', [CounterpartyController::class, 'updateCounterparty']);
     Route::delete('counterparties/{id}', [CounterpartyController::class, 'deleteCounterparty']);
+
+    Route::post('stores', [StoreController::class, 'createStore']);
+    Route::get('stores/{id}', [StoreController::class, 'getStore']);
+    Route::put('stores', [StoreController::class, 'updateStore']);
+    Route::delete('stores/{id}', [StoreController::class, 'deleteStore']);
 });
 
 
