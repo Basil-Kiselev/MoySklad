@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CounterpartyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductfolderController;
 use App\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,11 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('stores/{id}', [StoreController::class, 'getStore']);
     Route::put('stores', [StoreController::class, 'updateStore']);
     Route::delete('stores/{id}', [StoreController::class, 'deleteStore']);
+
+    Route::post('productfolders', [ProductfolderController::class, 'createProductfolder']);
+    Route::get('productfolders/{id}', [ProductfolderController::class, 'getProductfolder']);
+    Route::put('productfolders', [ProductfolderController::class, 'updateProductfolder']);
+    Route::delete('productfolders/{id}', [ProductfolderController::class, 'deleteProductfolder']);
 });
 
 
