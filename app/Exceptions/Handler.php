@@ -63,5 +63,13 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
         });
+
+        $this->renderable(function (FailMoyskladException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Неудачное выполнение операции'
+                ], 404);
+            }
+        });
     }
 }
