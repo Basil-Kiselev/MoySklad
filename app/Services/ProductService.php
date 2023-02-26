@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use App\Exceptions\FailMoyskladException;
-use App\Exceptions\WrongPassException;
 use App\Models\Product;
+use App\Models\ProductUpdate;
 use App\Services\Dto\ProductCreateDto;
 use App\Services\Dto\ProductUpdateDto;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\UpdateHelpService;
+use Carbon\Carbon;
 
 class ProductService
 {
@@ -51,17 +54,31 @@ class ProductService
             'name' => $dto->getName(),    
             'min_price' => $dto->getMinPrice(),
         ];
-        $localProduct = Product::query()->find($dto->getId());        
-        $localProduct->update($data);               
-        $skladProduct = (new MoyskladClient())->updateProduct($localProduct['sklad_id'],$data);
+        $localProduct = Product::query()->find($dto->getId());   
+        
+        foreach ($data as $field => $value) {
+            $localProduct->$field = $value;
+        }   
+        
+        $skladProduct = (new MoyskladClient())->updateProduct($localProduct['sklad_id'],$data);        
         
         if($skladProduct->failed()) {
             DB::rollBack();            
-            throw new FailMoyskladException();
+            throw new FailMoyskladException();            
         }
 
-        DB::commit();
+        $jsonDataChanges = (new UpdateHelpService($localProduct))->createJson();
+        $localProduct->save();
+        DB::commit();  
 
+        $dataProductUpdate = [
+            'product_id' => $localProduct->id,
+            'changes' => $jsonDataChanges,
+            'operator_id' => Auth::id(),
+            'update_time' => Carbon::now(),
+        ];
+        ProductUpdate::query()->create($dataProductUpdate);        
+        
         return $localProduct;
     }
 
