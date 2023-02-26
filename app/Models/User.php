@@ -46,4 +46,10 @@ class User extends Authenticatable
     {
         return $this->role === 'operator';
     }
+
+    public function productUpdates()
+    {
+        $this->hasMany(ProductUpdate::class);
+    }
+
 }
