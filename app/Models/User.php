@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function productUpdates()
     {
-        $this->hasMany(ProductUpdate::class);
+        $this->hasMany(ProductUpdate::class, CounterpartyUpdate::class);
     }
 
 }

@@ -25,4 +25,19 @@ class MoyskladClient
     {       
         return $this->authSklad()->delete(env('MOYSKLAD_URL') .'/entity/product/' . "$skladId");
     }
+
+    public function createCounterparty(array $data)
+    {
+        return $this->authSklad()->post(env('MOYSKLAD_URL') . '/entity/counterparty', $data);
+    }
+
+    public function updateCounterparty(string $skladId, array $data)
+    {
+        return $this->authSklad()->put(env('MOYSKLAD_URL') . '/entity/counterparty/' . "$skladId", $data);
+    }
+
+    public function deleteCounterparty(string $skladId)
+    {
+        return $this->authSklad()->delete(env('MOYSKLAD_URL') . '/entity/counterparty/' . $skladId);
+    }
 }
