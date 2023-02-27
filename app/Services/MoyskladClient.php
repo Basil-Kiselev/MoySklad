@@ -40,4 +40,34 @@ class MoyskladClient
     {
         return $this->authSklad()->delete(env('MOYSKLAD_URL') . '/entity/counterparty/' . $skladId);
     }
+
+    public function createStore(array $data)
+    {
+        return $this->authSklad()->post(env('MOYSKLAD_URL'). '/entity/store', $data);
+    }
+
+    public function updateStore(string $skladId, array $data)
+    {
+        return $this->authSklad()->put(env('MOYSKLAD_URL') . '/entity/store/' . "$skladId", $data);
+    }
+
+    public function deleteStore(string $skladId)
+    {
+        return $this->authSklad()->delete(env('MOYSKLAD_URL') . '/entity/store/' . $skladId);
+    }
+
+    public function createProductfolder(array $data)
+    {
+        return $this->authSklad()->post(env('MOYSKLAD_URL'). '/entity/productfolder', $data);
+    }
+
+    public function updateProductfolder(string $skladId, array $data)
+    {
+        return $this->authSklad()->put(env('MOYSKLAD_URL') . '/entity/productfolder/' . "$skladId", $data);
+    }
+
+    public function deleteProductfolder(string $skladId)
+    {
+        return $this->authSklad()->delete(env('MOYSKLAD_URL') . '/entity/productfolder/' . $skladId);
+    }
 }
