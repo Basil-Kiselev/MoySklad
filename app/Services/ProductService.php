@@ -59,27 +59,31 @@ class ProductService
         foreach ($data as $field => $value) {
             $localProduct->$field = $value;
         }   
+        $arrayDataChanges = (new UpdateHelpService($localProduct))->createArray();
         
-        $skladProduct = (new MoyskladClient())->updateProduct($localProduct['sklad_id'],$data);        
-        
-        if($skladProduct->failed()) {
-            DB::rollBack();            
-            throw new FailMoyskladException();            
+        if(empty($arrayDataChanges)) {
+            DB::rollBack();
+        } else {
+            $skladProduct = (new MoyskladClient())->updateProduct($localProduct['sklad_id'],$data);
+            $jsonDataChanges = json_encode($arrayDataChanges);        
+            $localProduct->save(); 
+            $dataProductUpdate = [
+                'product_id' => $localProduct->id,
+                'changes' => $jsonDataChanges,
+                'operator_id' => Auth::id(),
+                'update_time' => Carbon::now(),
+            ];
+            ProductUpdate::query()->create($dataProductUpdate);
+
+            if($skladProduct->failed()) {
+                DB::rollBack();            
+                throw new FailMoyskladException();           
+            }
         }
 
-        $jsonDataChanges = (new UpdateHelpService($localProduct))->createJson();
-        $localProduct->save();
-        DB::commit();  
-
-        $dataProductUpdate = [
-            'product_id' => $localProduct->id,
-            'changes' => $jsonDataChanges,
-            'operator_id' => Auth::id(),
-            'update_time' => Carbon::now(),
-        ];
-        ProductUpdate::query()->create($dataProductUpdate);        
+        DB::commit();       
         
-        return $localProduct;
+        return $localProduct;        
     }
 
     public function delete(int $id): bool
