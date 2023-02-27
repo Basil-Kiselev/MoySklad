@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Counterparty extends Model
+class CounterpartyUpdate extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    public function counterpartyUpdates()
+    public function counterparty()
     {
-        $this->hasMany(CounterpartyUpdate::class);
+        $this->belongsTo(CounterpartyUpdate::class, 'counterparty_id', 'id');
     }
 }
