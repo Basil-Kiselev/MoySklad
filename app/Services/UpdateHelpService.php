@@ -10,7 +10,7 @@ class UpdateHelpService
         public Model $data,
     ){}
 
-    public function createJson()
+    public function createArray(): array
     {
         $arrayData = $this->data->toArray();
         $updatedChanges = [];
@@ -24,6 +24,6 @@ class UpdateHelpService
                 $updatedChanges[] = $changes;                
             }
         }
-        return json_encode($updatedChanges);
+        return $updatedChanges;
     }   
 }
