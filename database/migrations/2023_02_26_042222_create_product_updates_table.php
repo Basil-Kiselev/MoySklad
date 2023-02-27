@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_updates', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
+            $table->string('product_id');
             $table->json('changes');
             $table->string('operator_id'); 
             $table->dateTime('update_time');           

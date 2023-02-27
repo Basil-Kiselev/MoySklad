@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('counterparties', function (Blueprint $table) {
             $table->id();
-            $table->integer('sklad_id')->nullable();
+            $table->string('sklad_id')->nullable();
             $table->string('name');
             $table->string('email');
             $table->string('code');
