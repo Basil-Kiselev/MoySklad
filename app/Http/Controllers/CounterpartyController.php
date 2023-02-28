@@ -9,8 +9,6 @@ use App\Services\Dto\CounterpartyCreateDto;
 use App\Services\Dto\CounterpartyUpdateDto;
 use Illuminate\Http\JsonResponse;
 
-
-
 class CounterpartyController extends Controller
 {
     public function createCounterparty(CounterpartyCreateRequest $counterpartyCreateRequest, CounterpartyService $counterpartyService)
