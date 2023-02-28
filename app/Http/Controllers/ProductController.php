@@ -9,7 +9,6 @@ use App\Services\Dto\ProductUpdateDto;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 
-
 class ProductController extends Controller
 {
     public function createProduct(ProductService $productService, ProductCreateRequest $productCreateRequest)
