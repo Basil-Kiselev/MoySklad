@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isOperator()
+    {
+        return $this->role === 'operator';
+    }
+
+    public function productUpdates()
+    {
+        $this->hasMany(ProductUpdate::class, CounterpartyUpdate::class);
+    }
+
 }

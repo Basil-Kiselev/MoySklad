@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,6 +45,31 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (WrongPassException $e, $request) {
+
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Неправильный логин или пароль'
+                ], 401);
+            }
+        });  
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Record not found.'
+                ], 404);
+            }
+        });
+
+        $this->renderable(function (FailMoyskladException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Неудачное выполнение операции'
+                ], 404);
+            }
         });
     }
 }
